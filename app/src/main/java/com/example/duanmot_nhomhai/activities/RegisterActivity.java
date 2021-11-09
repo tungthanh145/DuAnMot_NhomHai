@@ -16,7 +16,7 @@ import com.example.duanmot_nhomhai.dao.UserDAO;
 import com.example.duanmot_nhomhai.model.User;
 
 import java.util.ArrayList;
-
+//Màn hình đăng kí
 public class RegisterActivity extends AppCompatActivity {
     ArrayList<User> list = new ArrayList<>();
     private EditText edtUser, edtPassword, edtCfPass;

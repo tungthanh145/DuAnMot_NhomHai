@@ -19,115 +19,110 @@ public class QuestionDAO {
         db = DbHelper.getDbInstance(context);
     }
 
-    //lấy tất cả Question
-    public List<Question> getAllQuestion() {
-        String q = "SELECT ID,QUES, OPTION1, OPTION2, OPTION3, OPTION4, ANSWER, TOPIC_ID FROM QUESTION";
-        return getQuestion(q,null,"getAllQuestion()");
-    }
-
-    //Lấy question theo id
-    public Question getQuestionID(int questionID) {
-        String q = "SELECT ID,QUES, OPTION1, OPTION2, OPTION3, OPTION4, ANSWER, TOPIC_ID FROM QUESTION WHERE ID = ?";
-        String[] params = new String[]{String.valueOf(questionID)};
-        List<Question> list = getQuestion(q,params,"getTopicID()");
-        if(list.size()>0) return list.get(0);
-        return null;
-    }
-
-    //Thêm question
-    public boolean insert(Question question) {
-        SQLiteDatabase database = db.getWritableDatabase();
-        database.beginTransaction();
-        long row = 0;
-        try{
-            ContentValues values = new ContentValues();
-            values.put("QUES", question.getQuestion());
-            values.put("OPTION1", question.getAnswer1());
-            values.put("OPTION2", question.getAnswer2());
-            values.put("OPTION3", question.getAnswer3());
-            values.put("OPTION4", question.getAnswer4());
-            values.put("ANSWER", question.getAnswer());
-            values.put("TOPIC_ID", question.getTopicID());
-            row = database.insertOrThrow("QUESTION",null,values);
-            database.setTransactionSuccessful();
-        }catch (Exception e){
-            Log.i("insert(): ",e.getMessage());
-        }finally {
-            database.endTransaction();
-        }
-        return row >= 1;
-    }
-
-    //Cập nhật question
-    public boolean update(Question question) {
-        SQLiteDatabase database = db.getWritableDatabase();
-        database.beginTransaction();
-        long row = 0;
-        try{
-            ContentValues values = new ContentValues();
-            values.put("QUES", question.getQuestion());
-            values.put("OPTION1", question.getAnswer1());
-            values.put("OPTION2", question.getAnswer2());
-            values.put("OPTION3", question.getAnswer3());
-            values.put("OPTION4", question.getAnswer4());
-            values.put("ANSWER", question.getAnswer());
-            values.put("TOPIC_ID", question.getTopicID());
-
-            row = database.update("QUESTION", values, "ID = ?",
-                    new String[]{String.valueOf(question.getId())});
-            database.setTransactionSuccessful();
-        }catch (Exception e){
-            Log.i("update(): ",e.getMessage());
-        }finally {
-            database.endTransaction();
-        }
-        return row == 1;
-    }
-
-    //Xóa question
-    public boolean delete(int id) {
-        SQLiteDatabase database = db.getWritableDatabase();
-        database.beginTransaction();
-        long row = 0;
-        try{
-            row = database.delete("QUESTION", "ID = ?",
-                    new String[]{String.valueOf(id)});
-            database.setTransactionSuccessful();
-        }catch (Exception e){
-            Log.i("delete(): ",e.getMessage());
-        }finally {
-            database.endTransaction();
-        }
-        return row == 1;
-    }
-
     //Lấy dữ liệu của Question
-    private List<Question> getQuestion(String q, String[] params, String ex){
+    private List<Question> getQuestion(int topicID){
         List<Question> list = new ArrayList<>();
         SQLiteDatabase database = db.getReadableDatabase();
-        Cursor cursor = database.rawQuery(q,params);
-        try{
-            if(cursor.moveToFirst()){
-                while (!cursor.isAfterLast()){
-                    Integer id = cursor.getInt(cursor.getColumnIndex("ID"));
-                    String ques = cursor.getString(cursor.getColumnIndex("QUES"));
-                    String answer1 = cursor.getString(cursor.getColumnIndex("OPTION1"));
-                    String answer2 = cursor.getString(cursor.getColumnIndex("OPTION2"));
-                    String answer3 = cursor.getString(cursor.getColumnIndex("OPTION3"));
-                    String answer4 = cursor.getString(cursor.getColumnIndex("OPTION4"));
-                    Integer answer = cursor.getInt(cursor.getColumnIndex("ANSWER"));
-                    Integer topic_id = cursor.getInt(cursor.getColumnIndex("TOPIC_ID"));
-
-                    Question question = new Question(id, ques, answer1, answer2, answer3, answer4, answer, topic_id);
-                    list.add(question);
-                    cursor.moveToNext();
-                }
-            }
-        }catch (Exception e){
-            Log.i(ex,e.getMessage());
-        }finally {
-            if(cursor != null && !cursor.isClosed()) cursor.close();
+        String q = "SELECT * FROM TOPIC WHERE ID = ?";
+        Cursor cursor = database.rawQuery(q, new String[]{String.valueOf(topicID)});
+        if(cursor.moveToFirst()){
+            do {
+                Question question = new Question();
+                question.setId(cursor.getInt(cursor.getColumnIndex("ID")));
+                question.setQuestion(cursor.getString(cursor.getColumnIndex("QUES")));
+                question.setAnswer1(cursor.getString(cursor.getColumnIndex("OPTION1")));
+                question.setAnswer2(cursor.getString(cursor.getColumnIndex("OPTION2")));
+                question.setAnswer3(cursor.getString(cursor.getColumnIndex("OPTION3")));
+                question.setAnswer4(cursor.getString(cursor.getColumnIndex("OPTION4")));
+                question.setAnswer(cursor.getInt(cursor.getColumnIndex("ANSWER")));
+                question.setTopicID(cursor.getInt(cursor.getColumnIndex("TOPIC_ID")));
+                list.add(question);
+            }while (cursor.moveToNext());
         }
+        cursor.close();
         return list;
     }
+//    //lấy tất cả Question
+//    public List<Question> getAllQuestion() {
+//        String q = "SELECT ID,QUES, OPTION1, OPTION2, OPTION3, OPTION4, ANSWER, TOPIC_ID FROM QUESTION";
+//        return getQuestion(q,null,"getAllQuestion()");
+//    }
+//
+//    //Lấy question theo id
+//    public Question getQuestionID(int questionID) {
+//        String q = "SELECT ID,QUES, OPTION1, OPTION2, OPTION3, OPTION4, ANSWER, TOPIC_ID FROM QUESTION WHERE ID = ?";
+//        String[] params = new String[]{String.valueOf(questionID)};
+//        List<Question> list = getQuestion(q,params,"getTopicID()");
+//        if(list.size()>0) return list.get(0);
+//        return null;
+//    }
+//
+//    //Thêm question
+//    public boolean insert(Question question) {
+//        SQLiteDatabase database = db.getWritableDatabase();
+//        database.beginTransaction();
+//        long row = 0;
+//        try{
+//            ContentValues values = new ContentValues();
+//            values.put("QUES", question.getQuestion());
+//            values.put("OPTION1", question.getAnswer1());
+//            values.put("OPTION2", question.getAnswer2());
+//            values.put("OPTION3", question.getAnswer3());
+//            values.put("OPTION4", question.getAnswer4());
+//            values.put("ANSWER", question.getAnswer());
+//            values.put("TOPIC_ID", question.getTopicID());
+//            row = database.insertOrThrow("QUESTION",null,values);
+//            database.setTransactionSuccessful();
+//        }catch (Exception e){
+//            Log.i("insert(): ",e.getMessage());
+//        }finally {
+//            database.endTransaction();
+//        }
+//        return row >= 1;
+//    }
+//
+//    //Cập nhật question
+//    public boolean update(Question question) {
+//        SQLiteDatabase database = db.getWritableDatabase();
+//        database.beginTransaction();
+//        long row = 0;
+//        try{
+//            ContentValues values = new ContentValues();
+//            values.put("QUES", question.getQuestion());
+//            values.put("OPTION1", question.getAnswer1());
+//            values.put("OPTION2", question.getAnswer2());
+//            values.put("OPTION3", question.getAnswer3());
+//            values.put("OPTION4", question.getAnswer4());
+//            values.put("ANSWER", question.getAnswer());
+//            values.put("TOPIC_ID", question.getTopicID());
+//
+//            row = database.update("QUESTION", values, "ID = ?",
+//                    new String[]{String.valueOf(question.getId())});
+//            database.setTransactionSuccessful();
+//        }catch (Exception e){
+//            Log.i("update(): ",e.getMessage());
+//        }finally {
+//            database.endTransaction();
+//        }
+//        return row == 1;
+//    }
+//
+//    //Xóa question
+//    public boolean delete(int id) {
+//        SQLiteDatabase database = db.getWritableDatabase();
+//        database.beginTransaction();
+//        long row = 0;
+//        try{
+//            row = database.delete("QUESTION", "ID = ?",
+//                    new String[]{String.valueOf(id)});
+//            database.setTransactionSuccessful();
+//        }catch (Exception e){
+//            Log.i("delete(): ",e.getMessage());
+//        }finally {
+//            database.endTransaction();
+//        }
+//        return row == 1;
+//    }
+
+
 }

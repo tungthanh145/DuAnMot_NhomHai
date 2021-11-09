@@ -4,7 +4,7 @@ public class Topic {
     private int id;
     private String name;
 
-    public Topic(Integer id, String option_topic) {
+    public Topic() {
     }
 
     public Topic(String name) {

@@ -10,7 +10,7 @@ public class Question {
     private int answer;
     private int topicID;
 
-    public Question(Integer id, String ques, String answer1, String answer2, String answer3, String answer4, Integer answer, Integer topic_id) {
+    public Question() {
     }
 
     public Question(String question, String answer1, String answer2, String answer3, String answer4, int answer, int topicID) {
