@@ -3,6 +3,7 @@ package com.example.duanmot_nhomhai.database;
 import static com.example.duanmot_nhomhai.uitilities.Constants.DB_NAME;
 import static com.example.duanmot_nhomhai.uitilities.Constants.DB_VERSION;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -81,5 +82,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onConfigure(SQLiteDatabase db) {
         super.onConfigure(db);
         db.setForeignKeyConstraintsEnabled(true);
+    }
+    public void insert (String user, Object o, ContentValues values) {
     }
 }

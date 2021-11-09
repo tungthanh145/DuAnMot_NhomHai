@@ -144,4 +144,13 @@ public class UserDAO {
         }
         return list;
     }
+    public boolean insertUser(User user){
+        ContentValues values = new ContentValues();
+        values.put("ID", user.getId());
+        values.put("userName", user.getUsername());
+        values.put("passWord", user.getPassword());
+        values.put("Score", user.getScore());
+        db.insert("User", null, values);
+        return false;
+    }
 }

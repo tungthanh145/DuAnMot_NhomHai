@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/DuAnMau/DuAnMot_NhomHai/app/src/main/res/drawable-v24/ic_baseline_account_circle_24.xml" value="0.19583333333333333" />
         <entry key="..\:/DuAnMau/DuAnMot_NhomHai/app/src/main/res/layout/activity_game.xml" value="0.1796875" />
+        <entry key="..\:/DuAnMau/DuAnMot_NhomHai/app/src/main/res/layout/activity_login.xml" value="0.1796875" />
         <entry key="..\:/DuAnMau/DuAnMot_NhomHai/app/src/main/res/layout/activity_main.xml" value="0.1796875" />
+        <entry key="..\:/DuAnMau/DuAnMot_NhomHai/app/src/main/res/layout/activity_register.xml" value="0.1796875" />
         <entry key="..\:/DuAnMau/DuAnMot_NhomHai/app/src/main/res/layout/activity_screen.xml" value="0.1796875" />
       </map>
     </option>
