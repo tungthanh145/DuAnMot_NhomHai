@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                         ID_USER = user.getId();
                         PASSWORD = user.getPassword();
                         USER_NAME = user.getUsername();
-                        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, GameActivity.class);
                         startActivity(intent);
                         Toast.makeText(LoginActivity.this, "Login Successful !", Toast.LENGTH_SHORT).show();
                         return;

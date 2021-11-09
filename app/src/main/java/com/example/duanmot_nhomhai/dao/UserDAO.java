@@ -21,7 +21,7 @@ public class UserDAO {
 
     //lấy tất cả User
     public List<User> getAllUser() {
-        String q = "SELECT * FROM USER";
+        String q = "SELECT USERNAME, PASSWORD FROM USER";
         return getUser(q,null,"getAllUser()");
     }
 

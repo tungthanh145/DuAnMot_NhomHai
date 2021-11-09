@@ -6,5 +6,4 @@ public class Constants {
     public static int ID_USER = 0;
     public static String PASSWORD;
     public static String USER_NAME;
-    public static String TEN_TT = "";
 }
