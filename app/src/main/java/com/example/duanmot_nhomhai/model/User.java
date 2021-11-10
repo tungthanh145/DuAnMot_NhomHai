@@ -1,19 +1,25 @@
 package com.example.duanmot_nhomhai.model;
 
-public class User {
-    private int id;
-    public String username;
-    private String password;
-    private int score;
+import java.io.Serializable;
 
-    public User() {
+public class User implements Serializable {
+    private int id, score;
+    private String name, pass, email;
+
+    public User (int id, int score, String name, String pass, String email){
+        this.id = id;
+        this.score = score;
+        this.name = name;
+        this.pass = pass;
+        this.email = email;
     }
 
-    public User(int id, String username, String password, int score) {
+    public User () {
         this.id = id;
-        this.username = username;
-        this.password = password;
         this.score = score;
+        this.name = name;
+        this.pass = pass;
+        this.email = email;
     }
 
     public int getId() {
@@ -24,27 +30,35 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public int getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setRole(int role) {
         this.score = score;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -1,79 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.RegisterActivity"
-    android:background="@color/SandyBrown">
+    android:background="@color/MediumAquamarine"
+    android:padding="20dp"
+    tools:context=".activities.RegisterActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvRegister"
+        android:text="REGISTER"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_gravity="center_horizontal"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/ivAvatar"
+        android:src="@drawable/ic_baseline_account_circle_24"
+        android:layout_marginTop="20dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
-        android:textSize="40dp"
-        android:id="@+id/tvRegister"
-        android:textColor="@color/White"
+        android:textColor="#FFFFFF"
+        android:layout_margin="10dp"
+        android:gravity="center"
         android:textStyle="bold"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="16dp"/>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ivProfile"
-        android:src="@drawable/ic_baseline_account_circle_24"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"/>
+        android:textSize="30dp"
+        android:text="Add Librarians"/>
 
     <EditText
+        android:id="@+id/edtUserNameAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/edtUser"
-        android:hint="Username: "
-        android:textColor="@color/White"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"/>
+        android:backgroundTint="@color/white"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:hint="Username: "/>
+
     <EditText
+        android:id="@+id/edtFullNameAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/edtPassword"
-        android:hint="Password:"
-        android:textColor="@color/White"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"/>
+        android:backgroundTint="@color/white"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:hint="Full name: "/>
+
     <EditText
+        android:id="@+id/edtPasswordAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/edtCfPass"
-        android:hint="Confirm Password: "
-        android:textColor="@color/White"
-        android:textSize="20dp"
-        android:layout_marginTop="10dp"/>
+        android:backgroundTint="@color/white"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:hint="Password: "/>
+
+    <EditText
+        android:id="@+id/edtRePasswordAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:hint="Confirm Password: "/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp">
+        android:orientation="horizontal"
+        android:layout_gravity="right">
+
         <Button
-            android:layout_width="120dp"
-            android:layout_height="60dp"
-            android:id="@+id/btnSaveUser"
-            android:text="Save"
-            android:textStyle="bold"
-            android:textColor="@color/RosyBrown"
-            android:backgroundTint="@color/WhiteSmoke"
-            android:textSize="15dp"
-            android:layout_marginLeft="50dp"/>
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/Salmon"
+            android:layout_margin="10dp"
+            android:text="Save" />
+
         <Button
-            android:layout_width="120dp"
-            android:layout_height="60dp"
-            android:id="@+id/btnCancelUser"
-            android:text="Cancel"
-            android:textStyle="bold"
-            android:textColor="@color/RosyBrown"
-            android:backgroundTint="@color/WhiteSmoke"
-            android:textSize="15dp"
-            android:layout_marginLeft="50dp"/>
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/Salmon"
+            android:layout_margin="10dp"
+            android:text="Cancel" />
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvHaveAnAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Do you have an account ?"
+        android:layout_marginTop="20dp"
+        android:textSize="11dp"
+        android:layout_below="@+id/btnRegister"
+        android:gravity="center">
+
+    </TextView>
+
 </LinearLayout>

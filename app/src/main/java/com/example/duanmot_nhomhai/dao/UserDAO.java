@@ -1,5 +1,6 @@
 package com.example.duanmot_nhomhai.dao;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,144 +14,117 @@ import com.example.duanmot_nhomhai.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO {
+public class UserDAO implements IUser{
+    User user;
+
     DbHelper db;
-    public UserDAO(Context context){
-        db = DbHelper.getDbInstance(context);
+    public UserDAO (Context ctx){
+        db = db.getDbInstance(ctx);
     }
 
-    //lấy tất cả User
-    public List<User> getAllUser() {
-        String q = "SELECT USERNAME, PASSWORD FROM USER";
-        return getUser(q,null,"getAllUser()");
-    }
+    @Override
+    public User login(String _username, String _passWord) {
 
-    //Lấy user theo id
-    public User getUserID(int userID) {
-        String q = "SELECT * FROM USER WHERE ID = ?";
-        String[] params = new String[]{String.valueOf(userID)};
-        List<User> list = getUser(q,params,"getUserID()");
-        if(list.size()>0) return list.get(0);
-        return null;
-    }
-
-    public User login(String username, String password) {
         User user = null;
-        String q = "SELECT ID, USERNAME, PASSWORD FROM USER WHERE USERNAME = ?";
-        SQLiteDatabase database = db.getReadableDatabase();
-        Cursor cursor = database.rawQuery(q, new String[]{username});
-        try {
-            if(cursor.moveToFirst()){
-                while (!cursor.isAfterLast()){
-                    Integer _id = cursor.getInt(cursor.getColumnIndex("ID"));
-                    String _username = cursor.getString(cursor.getColumnIndex("USERNAME"));
-                    String _password = cursor.getString(cursor.getColumnIndex("PASSWORD"));
+        SQLiteDatabase database = db.getWritableDatabase();
+        String q = "SELECT ID, PASS, NAME, SCORE FROM USERS" +
+                " WHERE NAME = ? AND PASS = ?";
+        Cursor cs = database.rawQuery(q, new String[]{_username, _passWord});
+        try{
+            if (cs.moveToFirst()){
+                while (cs.isAfterLast() == false){
+                    @SuppressLint("Range")
+                    Integer id = cs.getInt(cs.getColumnIndex("ID"));
+                    @SuppressLint("Range")
+                    String password = cs.getString(cs.getColumnIndex("PASS"));
+                    @SuppressLint("Range")
+                    String name = cs.getString(cs.getColumnIndex("NAME"));
+                    @SuppressLint("Range")
+                    Integer score = cs.getInt(cs.getColumnIndex("SCORE"));
 
-                    if(!_password.equals(password)) break;
+                    if (!password.equals(_passWord))break;
                     user = new User();
-                    user.setId(_id);
-                    user.setUsername(_username);
+                    user.setId(id);
+                    user.setName(name);
+                    user.setPass(password);
+                    user.setRole(score);
 
-                    cursor.moveToNext();
+                    cs.moveToNext();
                 }
             }
-        }catch (Exception e){
-            Log.i("login()",e.getMessage());
+
+        }catch (Exception ex){
+            Log.i("login()", ex.getMessage());
         }finally {
-            if(cursor != null && !cursor.isClosed()) cursor.close();
+            if(cs != null && cs.isClosed()) cs.close();
         }
         return user;
     }
 
+    @Override
     public boolean register(User user) {
         SQLiteDatabase database = db.getWritableDatabase();
         database.beginTransaction();
-        long row = 0;
-        try{
+        long rows = 0;
+        try {
             ContentValues values = new ContentValues();
-            values.put("USERNAME", user.getUsername());
-            values.put("PASSWORD", user.getPassword());
-            row = database.insertOrThrow("USER",null,values);
+            values.put("NAME", user.getName());
+            values.put("PASS", user.getPass());
+            values.put("NAME", user.getName());
+            values.put("SCORE", user.getScore());
+            rows = database.insertOrThrow("USERS",null,values);
             database.setTransactionSuccessful();
         }catch (Exception e){
-            Log.i("register(): ",e.getMessage());
+            Log.i("insert()",e.getMessage());
         }finally {
             database.endTransaction();
         }
-        return row >= 1;
+        return  rows >= 1;
     }
 
+    @Override
     public boolean update(User user) {
         SQLiteDatabase database = db.getWritableDatabase();
         database.beginTransaction();
-        long row = 0;
-        try{
+        long rows = 0;
+        try {
             ContentValues values = new ContentValues();
-            values.put("USERNAME", user.getUsername());
-            values.put("PASSWORD", user.getPassword());
-            row = database.update("USER", values, "ID = ?",
-                    new String[]{String.valueOf(user.getId())});
+            //           values.put("USERNAME", user.getName());
+            //           values.put("PASSWORD", user.getPass());
+            values.put( "PASS", user.getPass() );
+            values.put("NAME", user.getName());
+            values.put("SCORE", user.getScore());
+            rows = database.update("USERS",values, "ID=?", new String[]{String.valueOf(user.getId())});
             database.setTransactionSuccessful();
         }catch (Exception e){
-            Log.i("update(): ",e.getMessage());
+            Log.i("update()",e.getMessage());
         }finally {
             database.endTransaction();
         }
-        return row == 1;
+        return  rows == 1;
     }
 
-    public boolean checkUsernameExist(String username) {
+    @Override
+    public boolean checkUsernameExists(String _name) {
         boolean exist = false;
-        String q = "SELECT USERNAME FROM USER WHERE USERNAME = ?";
         SQLiteDatabase database = db.getReadableDatabase();
-        Cursor cursor = database.rawQuery(q, new String[]{username});
-        try {
-            if(cursor.moveToFirst()){
-                while (!cursor.isAfterLast()){
-                    exist = true;
-                    cursor.moveToNext();
-                }
-            }
-        }catch (Exception e){
-            Log.i("checkUsernameExist()",e.getMessage());
-        }finally {
-            if(cursor != null && !cursor.isClosed()) cursor.close();
-        }
-        return exist;
-    }
-
-    //Lấy dữ liệu của user
-    private List<User> getUser(String q, String[] params, String ex){
-        List<User> list = new ArrayList<>();
-        SQLiteDatabase database = db.getReadableDatabase();
-        Cursor cursor = database.rawQuery(q,params);
+        String q = "SELECT NAME FROM USERS WHERE NAME = ?";
+        Cursor cs = database.rawQuery(q, new String[]{_name});
         try{
-            if(cursor.moveToFirst()){
-                while (!cursor.isAfterLast()){
-                    Integer id = cursor.getInt(cursor.getColumnIndex("ID"));
-                    String username = cursor.getString(cursor.getColumnIndex("USERNAME"));
-                    String password = cursor.getString(cursor.getColumnIndex("PASSWORD"));
-                    Integer score = cursor.getInt(cursor.getColumnIndex("SCORE"));
 
-                    User user = new User(id, username, password, score);
-                    list.add(user);
-                    cursor.moveToNext();
+            if (cs.moveToFirst()){
+                while (!cs.isAfterLast()){
+                    exist = true;
+                    cs.moveToNext();
                 }
             }
-        }catch (Exception e){
-            Log.i(ex,e.getMessage());
+
+        }catch (Exception ex){
+            Log.i("checkUsernameExists()", ex.getMessage());
         }finally {
-            if(cursor != null && !cursor.isClosed()) cursor.close();
+            if(cs != null && cs.isClosed()) cs.close();
         }
-        return list;
-    }
-    public boolean insertUser(User user){
-        ContentValues values = new ContentValues();
-        values.put("ID", user.getId());
-        values.put("userName", user.getUsername());
-        values.put("passWord", user.getPassword());
-        values.put("Score", user.getScore());
-        db.insert("User", null, values);
-        return false;
+        Log.e( "exist", " "+exist );
+        return exist;
     }
 }

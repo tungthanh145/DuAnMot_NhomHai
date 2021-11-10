@@ -28,8 +28,8 @@ public class RatingDAO {
         Cursor c = database.rawQuery(q, null);
         while (c.moveToNext()){
             Rating rating = new Rating();
-            User user = userDAO.getUserID(c.getInt(c.getColumnIndex("ID")));
-            rating.name = user.username;
+//            User user = userDAO.getUserID(c.getInt(c.getColumnIndex("ID")));
+//            rating.name = user.username;
             rating.score = Integer.parseInt(c.getString(c.getColumnIndex("SCORE")));
             list.add(rating);
         }

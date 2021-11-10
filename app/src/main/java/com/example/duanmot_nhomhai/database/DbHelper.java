@@ -31,9 +31,11 @@ public class DbHelper extends SQLiteOpenHelper {
                 "TOPIC_ID INTEGER, FOREIGN KEY(TOPIC_ID) REFERENCES TOPIC(ID))";
         db.execSQL(q);
 
-        q = "CREATE TABLE USER(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "USERNAME TEXT, " +
-                "PASSWORD TEXT, " +
+        q = "CREATE TABLE IF NOT EXISTS USERS (" +
+                "ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "NAME TEXT, " +
+                "PASS TEXT, " +
+                "EMAIL TEXT, " +
                 "SCORE INTEGER)";
         db.execSQL(q);
 
@@ -46,15 +48,15 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(q);
 
         //insert table user
-        q = "INSERT INTO USER(USERNAME, PASSWORD, SCORE) VALUES ('thanhtung','1',7)";
+        q = "INSERT INTO USERS(NAME, PASS, EMAIL, SCORE) VALUES ('thanhtung','1','thanhtung@gmail.com',7)";
         db.execSQL(q);
-        q = "INSERT INTO USER(USERNAME, PASSWORD, SCORE) VALUES ('phuockhoa','2',8)";
+        q = "INSERT INTO USERS(NAME, PASS, EMAIL, SCORE) VALUES ('phuockhoa','2','phuockhoa@gmail.com',8)";
         db.execSQL(q);
-        q = "INSERT INTO USER(USERNAME, PASSWORD, SCORE) VALUES ('thanhluan','3',9)";
+        q = "INSERT INTO USERS(NAME, PASS, EMAIL, SCORE) VALUES ('thanhluan','3','thanhluan@gmail.com',9)";
         db.execSQL(q);
-        q = "INSERT INTO USER(USERNAME, PASSWORD, SCORE) VALUES ('minhhoang','4',5)";
+        q = "INSERT INTO USERS(NAME, PASS, EMAIL, SCORE) VALUES ('minhhoang','4','minhhoang@gmail.com',5)";
         db.execSQL(q);
-        q = "INSERT INTO USER(USERNAME, PASSWORD, SCORE) VALUES ('phuocthien','5',6)";
+        q = "INSERT INTO USERS(NAME, PASS, EMAIL, SCORE) VALUES ('phuocthien','5','phuocthien@gmail.com',6)";
         db.execSQL(q);
 
         //Dễ
@@ -82,7 +84,5 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onConfigure(SQLiteDatabase db) {
         super.onConfigure(db);
         db.setForeignKeyConstraintsEnabled(true);
-    }
-    public void insert (String user, Object o, ContentValues values) {
     }
 }

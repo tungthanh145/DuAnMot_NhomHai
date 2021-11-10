@@ -20,10 +20,10 @@ public class QuestionDAO {
     }
 
     //Lấy dữ liệu của Question
-    private List<Question> getQuestion(int topicID){
+    public List<Question> getQuestion(int topicID){
         List<Question> list = new ArrayList<>();
         SQLiteDatabase database = db.getReadableDatabase();
-        String q = "SELECT * FROM TOPIC WHERE ID = ?";
+        String q = "SELECT * FROM QUESTION WHERE ID = ?";
         Cursor cursor = database.rawQuery(q, new String[]{String.valueOf(topicID)});
         if(cursor.moveToFirst()){
             do {
